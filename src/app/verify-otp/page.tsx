@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { authApi } from '@/lib/api/auth';
 import axiosInstance from '@/lib/api/axios';
 
-export default function VerifyOTPPage() {
+function VerifyOTPComponent() {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -250,15 +250,16 @@ export default function VerifyOTPPage() {
               </div>
             </form>
           )}
-
-          <div className="mt-6 text-center text-sm">
-            <span className="text-gray-500">Back to</span>{' '}
-            <Link href="/login" className="font-medium text-primary hover:underline">
-              Sign in
-            </Link>
-          </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyOTPPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <VerifyOTPComponent />
+    </Suspense>
   );
 } 
